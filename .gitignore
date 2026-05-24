@@ -1,0 +1,23 @@
+# Compiled output
+node_modules/
+dist/
+build/
+.DS_Store
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.env
+.env.local
+
+# Tauri build target & lockfile
+src-tauri/target/
+src-tauri/Cargo.lock
+
+# OpenSpec workspace state
+openspec/changes/*/state.json
+
+# Local user history (never commit clipboard contents!)
+history.json
+*.history.json
