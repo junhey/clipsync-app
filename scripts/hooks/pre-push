@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+#
+# pre-push hook: 当推送 origin/main 时, 自动同步公开 mirror 和官网.
+#
+# 触发条件:
+#   - remote 是 origin (你的私仓)
+#   - 推送的本地分支含 main
+#   - 在 main 分支顶端
+#
+# 行为:
+#   1. 先放行 push 到私仓 (本 hook 退出 0)
+#   2. push 成功后再后台跑:
+#      - scripts/mirror-public.sh     → junhey/clipsync-app (源码 mirror)
+#      - scripts/deploy-pages.sh      → 仅当 docs/pages/ 在本次推送中有变化
+#
+# 跳过方式:
+#   git push --no-verify          (一次性)
+#   CLIPSYNC_NO_MIRROR=1 git push  (env 变量)
+#
+# 文件位置: scripts/hooks/pre-push
+# 安装: bash scripts/install-hooks.sh
+
+set -e
+
+# 容许显式跳过
+if [ "${CLIPSYNC_NO_MIRROR:-0}" = "1" ]; then
+  exit 0
+fi
+
+REMOTE="$1"
+URL="$2"
+
+# 只处理推到 origin (私仓) 的情况.
+[ "$REMOTE" = "origin" ] || exit 0
+
+# 读 stdin 找 main 分支推送
+PUSH_MAIN=0
+PUSH_SHA=""
+PREV_SHA=""
+ZERO="0000000000000000000000000000000000000000"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main)
+      PUSH_MAIN=1
+      PUSH_SHA="$local_sha"
+      PREV_SHA="$remote_sha"
+      ;;
+  esac
+done
+
+[ "$PUSH_MAIN" = "1" ] || exit 0
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Background hook: GitHub 把 push 真正落地之前会运行 hook,
+# 所以我们必须等 push 自身完成再跑 mirror. 用 nohup 派一个后台任务,
+# 它会等 git push 主进程结束 (检查 .git/index.lock 不存在 + push 后短暂 sleep).
+PARENT_PID=$$
+
+(
+  # 等 git push 主进程结束 — git 不释放 index.lock 时不动手, 然后多 sleep 几秒
+  # 让远程真的接收到 commit
+  while kill -0 "$PARENT_PID" 2>/dev/null; do
+    sleep 0.3
+  done
+  sleep 3
+
+  cd "$REPO_ROOT"
+
+  LOG="$REPO_ROOT/.git/clipsync-mirror.log"
+  exec >>"$LOG" 2>&1
+  echo "──────── $(date '+%Y-%m-%d %H:%M:%S') auto-mirror ────────"
+  echo "previous main: ${PREV_SHA:-(new)}"
+  echo "pushed main:   ${PUSH_SHA}"
+
+  # 1) 同步源码 mirror
+  if [ -x "$REPO_ROOT/scripts/mirror-public.sh" ]; then
+    echo "→ mirror-public.sh"
+    bash "$REPO_ROOT/scripts/mirror-public.sh" || echo "    (mirror-public 出错, 见上方)"
+  fi
+
+  # 2) 仅当本次推送 docs/pages/ 有变化时, 重新部署官网
+  if [ "$PREV_SHA" != "$ZERO" ] && [ -n "$PREV_SHA" ]; then
+    if git diff --quiet "$PREV_SHA" "$PUSH_SHA" -- docs/pages 2>/dev/null; then
+      echo "  docs/pages 无变化, 跳过 deploy-pages"
+    else
+      echo "→ deploy-pages.sh (docs/pages 已修改)"
+      bash "$REPO_ROOT/scripts/deploy-pages.sh" || echo "    (deploy-pages 出错, 见上方)"
+    fi
+  else
+    # 第一次推 / 强制推, 一并部署
+    if [ -x "$REPO_ROOT/scripts/deploy-pages.sh" ]; then
+      echo "→ deploy-pages.sh (首次或无 prev-sha)"
+      bash "$REPO_ROOT/scripts/deploy-pages.sh" || true
+    fi
+  fi
+
+  echo "──────── done ────────"
+) </dev/null >/dev/null 2>&1 &
+disown 2>/dev/null || true
+
+# 屏幕上给用户一行提示, 然后立刻放行 push
+exec >&2
+echo "🔁 pre-push: 后台同步公开 mirror (日志: .git/clipsync-mirror.log)"
+
+exit 0
