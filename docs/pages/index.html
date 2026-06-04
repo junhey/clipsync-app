@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClipSync — 让剪贴板跟着你跨设备</title>
+    <meta
+      name="description"
+      content="ClipSync 是一款基于 Tauri 2 + Rust 构建的 macOS 剪贴板管理器，与 Clipy 同级体验、闲置 0% CPU，所有历史通过你自己的 GitHub 私有仓库同步。"
+    />
+    <meta property="og:title" content="ClipSync — 让剪贴板跟着你跨设备" />
+    <meta
+      property="og:description"
+      content="菜单栏剪贴板管理 · 片段模板 · GitHub 私有仓库同步 · 跨 Mac 协同"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <a href="#" class="brand">
+          <span class="brand-icon">📋</span>
+          <span class="brand-name">ClipSync</span>
+          <span class="brand-tag">v0.8 · live</span>
+        </a>
+        <nav class="nav-links">
+          <a href="#features">特性</a>
+          <a href="#hotkeys">快捷键</a>
+          <a href="#install">下载安装</a>
+          <a href="#faq">FAQ</a>
+          <a
+            href="https://github.com/junhey/clipsync-app"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>
+          剪贴板，<br />跟着你<span class="accent">跨设备</span>。
+        </h1>
+        <p class="hero-sub">
+          菜单栏常驻、闲置零 CPU、原生 macOS 体验。<br />
+          所有历史通过你自己的 GitHub 私有仓库同步，
+          <strong>数据归你，不归任何 SaaS</strong>。
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#install">下载 macOS 版</a>
+          <a
+            class="btn btn-ghost"
+            href="https://github.com/junhey/clipsync-app"
+            target="_blank"
+            rel="noopener"
+            >查看源码 →</a
+          >
+        </div>
+        <div class="hero-badges">
+          <span>📦 4.9 MB bundle</span>
+          <span>⚡ 闲置 0% CPU</span>
+          <span>🔒 PAT 存于 macOS Keychain</span>
+          <span>🍎 macOS 12+</span>
+        </div>
+      </div>
+      <div class="hero-shot">
+        <div class="window-frame">
+          <div class="traffic-lights">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="popup-mock">
+            <div class="popup-tabs">
+              <span class="popup-tab active">历史</span>
+              <span class="popup-tab"
+                >片段 <span class="popup-badge">12</span></span
+              >
+            </div>
+            <div class="popup-input">🔎 搜索剪贴板历史...</div>
+            <div class="popup-item active">
+              <span class="kbd">⌘1</span>
+              <div>
+                <div class="popup-text">https://docs.tauri.app/start/</div>
+                <div class="popup-meta">2 分钟前 · text</div>
+              </div>
+            </div>
+            <div class="popup-item">
+              <span class="kbd">⌘2</span>
+              <div>
+                <div class="popup-text">git rebase -i HEAD~3</div>
+                <div class="popup-meta">10 分钟前 · text</div>
+              </div>
+            </div>
+            <div class="popup-item">
+              <span class="kbd">⌘3</span>
+              <div>
+                <div class="popup-text">SELECT * FROM users WHERE active=true;</div>
+                <div class="popup-meta">25 分钟前 · text</div>
+              </div>
+            </div>
+            <div class="popup-item">
+              <span class="kbd">⌘4</span>
+              <div>
+                <div class="popup-text">📷 1822×1136 · 3.2 MB</div>
+                <div class="popup-meta">1 小时前 · image</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>核心特性</h2>
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon">🪶</div>
+          <h3>菜单栏常驻 · 闲置零 CPU</h3>
+          <p>
+            利用 macOS NSPasteboard.changeCount fast-path：闲置时只读一个整数，
+            真正的内容捕获仅在剪贴板变化时发生。实测和 Clipy 持平。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🔐</div>
+          <h3>数据归你 · GitHub 私有仓库同步</h3>
+          <p>
+            存到你自己的 <code>&lt;owner&gt;/clipsync</code> 私有仓库的 data orphan
+            分支。content-addressed 拆 blob、自动去重，commit 永远只有 1 个。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">📝</div>
+          <h3>剪贴板历史 + 片段模板</h3>
+          <p>
+            自动捕获剪贴板（含图片）放进时间倒序的历史；常用模板放进
+            Snippet 树形管理，⌘E 打开编辑器，与 Clipy 体验一致。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>直达粘贴：⌘⇧⌥1-9</h3>
+          <p>
+            不需要唤出弹窗：按一组直达快捷键，最近 N 条直接粘到光标位置。
+            和 Maccy / Alfred 同款体验。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🚀</div>
+          <h3>开机自启 + 自动粘贴</h3>
+          <p>
+            首次启动会主动询问是否启用自启。可选「选中后自动粘贴」（需
+            Accessibility 权限），按 Enter 直接粘到原应用。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🪟</div>
+          <h3>外观三选：菜单栏 · Dock · 两者</h3>
+          <p>
+            默认仅菜单栏（无 Dock 图标），也可切到「仅 Dock」「两者」。
+            实时切换，不需要重启。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">🛡</div>
+          <h3>来源黑名单 · 密码管理器零泄露</h3>
+          <p>
+            默认屏蔽 1Password / LastPass / KeePassXC / Bitwarden 复制的内容，
+            不进入历史也不上传。
+          </p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">📦</div>
+          <h3>4.9 MB · Tauri 2 + Rust</h3>
+          <p>
+            原生体积，没有 Electron 包袱。LTO + opt-level=z 编译，9 个 Rust
+            单测保证核心逻辑正确。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="hotkeys" class="hotkeys">
+      <h2>默认快捷键</h2>
+      <div class="hotkey-grid">
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">⌘</span><span class="kbd">⇧</span
+            ><span class="kbd">V</span></span
+          >
+          <span>唤起主弹窗（可改）</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">⌘</span><span class="kbd">1</span>-<span
+              class="kbd"
+              >9</span
+            ></span
+          >
+          <span>选中并粘贴当前 tab 第 N 条</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">⌘</span><span class="kbd">⇧</span
+            ><span class="kbd">⌥</span><span class="kbd">1</span>-<span
+              class="kbd"
+              >9</span
+            ></span
+          >
+          <span>不唤窗，直接粘最近 N 条</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">Tab</span></span
+          >
+          <span>历史 / 片段 切换</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">⌘</span><span class="kbd">E</span></span
+          >
+          <span>打开片段编辑器</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">⌘</span><span class="kbd">P</span></span
+          >
+          <span>置顶/取消置顶当前选中条目</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">↑</span><span class="kbd">↓</span></span
+          >
+          <span>移动焦点</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">Enter</span></span
+          >
+          <span>选中并粘贴</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">Esc</span></span
+          >
+          <span>关闭弹窗 / 取消编辑</span>
+        </div>
+        <div>
+          <span class="kbd-group"
+            ><span class="kbd">F2</span></span
+          >
+          <span>编辑器中重命名节点</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install">
+      <h2>下载与安装</h2>
+      <div class="install-grid">
+        <div class="install-card highlight">
+          <div class="install-tag">⚡ 推荐</div>
+          <h3>① 一键安装（Terminal）</h3>
+          <p>
+            一行命令完成下载、解压、安装到
+            <code>/Applications</code>、绕过 Gatekeeper、ad-hoc 签名、自动启动。
+          </p>
+          <div class="curl-cmd">
+            <pre><code>curl -fsSL https://junhey.github.io/clipsync-app/install.sh | bash</code></pre>
+            <button class="copy-btn" onclick="copyCurl(this)">复制</button>
+          </div>
+          <details>
+            <summary>看脚本干了什么</summary>
+            <ol>
+              <li>检测 macOS 平台 + 架构（aarch64 / x64）</li>
+              <li>从 GitHub Releases API 拉最新版本号 + 资产 URL</li>
+              <li>下载 <code>.app.tar.gz</code> 到临时目录</li>
+              <li>解压 → 复制到 <code>/Applications/ClipSync.app</code></li>
+              <li><code>xattr -dr com.apple.quarantine</code> 解除隔离</li>
+              <li><code>codesign --sign -</code> ad-hoc 签名</li>
+              <li><code>open -a ClipSync</code> 启动</li>
+            </ol>
+            <p>
+              脚本源码：
+              <a
+                href="https://github.com/junhey/clipsync-app/blob/main/docs/pages/install.sh"
+                target="_blank"
+                rel="noopener"
+                >install.sh</a
+              >
+            </p>
+          </details>
+        </div>
+        <div class="install-card">
+          <h3>② 手动下载 .app</h3>
+          <p>从 GitHub Releases 下载 <code>ClipSync_*_aarch64.app.tar.gz</code>，拖到 <code>/Applications</code>。</p>
+          <a
+            class="btn btn-primary"
+            href="https://github.com/junhey/clipsync-app/releases"
+            target="_blank"
+            rel="noopener"
+            >前往 Releases →</a
+          >
+          <pre><code># 第一次启动会被 Gatekeeper 拦下，运行：
+xattr -dr com.apple.quarantine /Applications/ClipSync.app</code></pre>
+        </div>
+        <div class="install-card">
+          <h3>③ 自己 Build</h3>
+          <p>需要 Rust 1.77+ 和 Node 20+。</p>
+          <pre><code>git clone https://github.com/junhey/clipsync-app
+cd clipsync
+npm install
+npm run tauri:build -- --bundles app
+# 产物: src-tauri/target/release/bundle/macos/ClipSync.app</code></pre>
+        </div>
+        <div class="install-card">
+          <h3>④ 配置 GitHub 同步</h3>
+          <p>菜单栏 → 设置 → GitHub 同步：</p>
+          <ol>
+            <li>
+              在 GitHub 创建一个 <strong>private repo</strong> 名叫
+              <code>clipsync</code>（默认仓库名，可改）
+            </li>
+            <li>
+              生成一个有 <code>repo</code> scope 的
+              <a
+                href="https://github.com/settings/personal-access-tokens/new"
+                target="_blank"
+                rel="noopener"
+                >fine-grained PAT</a
+              >
+            </li>
+            <li>粘到设置面板的 PAT 输入框（会存进 macOS Keychain）</li>
+            <li>
+              60 秒后 <code>data</code> 分支自动出现 + 你的剪贴板已上去
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function copyCurl(btn) {
+        const cmd = "curl -fsSL https://junhey.github.io/clipsync-app/install.sh | bash";
+        navigator.clipboard.writeText(cmd).then(() => {
+          const old = btn.textContent;
+          btn.textContent = "已复制 ✓";
+          setTimeout(() => (btn.textContent = old), 1500);
+        });
+      }
+    </script>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>它和 Clipy / Maccy / Paste 比怎么样？</summary>
+        <p>
+          Clipy 同样优秀但<strong>不带云同步</strong>；Maccy 用 iCloud
+          KVS（限苹果生态）；Paste 收年费且数据托管在他们服务器。
+          ClipSync 把同步存在你自己的 GitHub 私有仓库，
+          数据归你、永远不会消失、跨苹果生态都能看到。
+        </p>
+      </details>
+      <details>
+        <summary>Token 安全吗？</summary>
+        <p>
+          PAT 存在 macOS Keychain（service=ClipSync, account=github_pat）。
+          应用只在 sync 时读取，不持久化到任何文件。建议用
+          fine-grained PAT 限定权限到那个 clipsync 仓库。
+        </p>
+      </details>
+      <details>
+        <summary>仓库会不会越来越大？</summary>
+        <p>
+          不会。<code>data</code> 分支是 orphan branch，每次 sync force-push
+          一个新 root commit，仓库总大小 ≈ 当前 history 字节数（约 50 KB）。
+          相同内容的剪贴板项共享同一个 blob 文件，永不重复。
+        </p>
+      </details>
+      <details>
+        <summary>支持 Windows / Linux 吗？</summary>
+        <p>
+          代码是跨平台的（Tauri 2 + Rust），但目前只在 macOS 充分测试。
+          Windows / Linux 需要替换菜单栏图标资源 + 适配辅助功能权限的对应方案。
+          欢迎 PR。
+        </p>
+      </details>
+      <details>
+        <summary>怎么屏蔽某个 app 的剪贴板？</summary>
+        <p>
+          设置面板 → 隐私 → 忽略来源，每行一个 bundle id 模式（支持
+          <code>*</code> 通配符）。默认已经屏蔽 1Password / LastPass /
+          KeePassXC / Bitwarden。
+        </p>
+      </details>
+      <details>
+        <summary>如何彻底卸载？</summary>
+        <p>
+          1. 退出 ClipSync<br />
+          2. 拖 <code>/Applications/ClipSync.app</code> 到废纸篓<br />
+          3. 删除 <code>~/Library/Application Support/dev.junhey.clipsync</code><br />
+          4. 删除 macOS Keychain 中的 <code>ClipSync / github_pat</code>
+          条目<br />
+          5.（可选）删除 GitHub 上的 clipsync 仓库
+        </p>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <p>
+          ClipSync · MIT License · Built with Tauri 2 + Rust + React<br />
+          <a
+            href="https://github.com/junhey/clipsync-app"
+            target="_blank"
+            rel="noopener"
+            >github.com/junhey/clipsync-app</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
