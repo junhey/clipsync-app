@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>市场 — ClipSync</title>
+    <meta
+      name="description"
+      content="ClipSync 片段市场。公开分享可以直接查看；不公开的分享只保存密文，需要密钥才能打开。"
+    />
+    <meta property="og:title" content="市场 — ClipSync" />
+    <meta
+      property="og:description"
+      content="公开分享可以直接查看。不公开的分享需要密钥。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://junhey.github.io/clipsync-app/market.html" />
+    <meta property="og:locale" content="zh_CN" />
+    <link rel="canonical" href="https://junhey.github.io/clipsync-app/market.html" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css?v=13" />
+    <meta name="theme-color" content="#f3f6f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1514" media="(prefers-color-scheme: dark)" />
+    <script>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#catalog">跳到内容</a>
+    <header class="nav" id="top">
+      <div class="nav-inner">
+        <a class="brand" href="index.html" aria-label="ClipSync 首页">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0969da" />
+                <stop offset="100%" stop-color="#0e7c86" />
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="14" fill="url(#brand-grad)" />
+            <rect x="18" y="14" width="28" height="36" rx="3" fill="#fff" opacity="0.95" />
+            <rect x="22" y="22" width="20" height="2" rx="1" fill="#0969da" />
+            <rect x="22" y="28" width="20" height="2" rx="1" fill="#0969da" />
+            <rect x="22" y="34" width="14" height="2" rx="1" fill="#0969da" />
+            <rect x="26" y="10" width="12" height="6" rx="2" fill="#0e7c86" />
+          </svg>
+          ClipSync
+        </a>
+        <nav class="nav-links" aria-label="首页">
+          <a href="index.html#preview">界面</a>
+          <a href="index.html#features">特性</a>
+          <a href="index.html#hotkeys">快捷键</a>
+          <a href="index.html#install">安装</a>
+          <a href="index.html#privacy">隐私</a>
+          <a href="index.html#faq">问答</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="nav-section" href="market.html" aria-current="page">市场</a>
+          <a class="nav-github" href="https://github.com/junhey/clipsync-app" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+            </svg>
+            GitHub
+          </a>
+          <a class="btn btn-primary btn-sm" href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">下载</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="market-page">
+      <section class="section" id="catalog">
+        <div class="wrap">
+          <p class="kicker">Market</p>
+          <h1>片段市场</h1>
+          <p class="lede">
+            公开的分享可以直接看、可以直接复制。不公开的分享只保存密文，页面上看不到名称和内容，输入密钥才能打开。应用里点「分享」时可以选其中一种。
+          </p>
+          <div id="market-root">
+            <div class="market-skel" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <p class="visually-hidden">加载中</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>ClipSync · MIT License · Tauri 2 + Rust + React + TypeScript</p>
+        <nav aria-label="站点">
+          <a href="index.html">首页</a>
+          <a href="https://github.com/junhey/clipsync-app" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/junhey/clipsync-app/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/junhey/clipsync-app/issues" target="_blank" rel="noopener">反馈问题</a>
+        </nav>
+      </div>
+    </footer>
+    <script type="module" src="market.js"></script>
+  </body>
+</html>

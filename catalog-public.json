@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "git",
+      "name": "Git",
+      "blurb": "提交、回退、暂存，写完就能贴进终端。",
+      "snippets": [
+        {
+          "id": "git-undo-commit-keep-changes",
+          "name": "撤销最近一次提交，改动留着",
+          "summary": "提交信息写错或还想再改文件时用。工作区里的改动不会丢。",
+          "tags": ["git", "回退"],
+          "author": "ClipSync",
+          "content": "git reset --soft HEAD~1\n"
+        },
+        {
+          "id": "git-stash-wip",
+          "name": "把当前改动先收起来",
+          "summary": "要临时切分支，又不想做一次半成品提交。包含未跟踪文件。",
+          "tags": ["git", "stash"],
+          "author": "ClipSync",
+          "content": "git stash push -u -m \"wip: \"\n"
+        },
+        {
+          "id": "git-file-history",
+          "name": "看一个文件最近是谁改的",
+          "summary": "把路径补在命令末尾。改名过的文件也会跟着查。",
+          "tags": ["git", "历史"],
+          "author": "ClipSync",
+          "content": "git log -20 --follow --stat -- \n"
+        },
+        {
+          "id": "git-commit-why",
+          "name": "提交说明：先写为什么",
+          "summary": "填完这三行再提炼成标题。避免提交说明变成文件清单。",
+          "tags": ["git", "说明"],
+          "author": "ClipSync",
+          "content": "之前：\n现在：\n为什么现在改：\n"
+        }
+      ]
+    },
+    {
+      "id": "ops",
+      "name": "排障",
+      "blurb": "端口、大文件、接口耗时、本机 DNS。",
+      "snippets": [
+        {
+          "id": "port-who-listens",
+          "name": "谁占用了这个端口",
+          "summary": "把 3000 换成你要查的端口。macOS 和 Linux 都能用。",
+          "tags": ["端口", "终端"],
+          "author": "ClipSync",
+          "content": "lsof -nP -iTCP:3000 -sTCP:LISTEN\n"
+        },
+        {
+          "id": "largest-files",
+          "name": "当前目录里最大的 20 个文件",
+          "summary": "跳过 .git。仓库突然变大时，先看是谁占的空间。",
+          "tags": ["磁盘", "终端"],
+          "author": "ClipSync",
+          "content": "find . -type f -not -path '*/.git/*' -exec du -k {} + | sort -nr | head -20\n"
+        },
+        {
+          "id": "curl-timing",
+          "name": "看一次请求的状态码和耗时",
+          "summary": "不把响应体打到终端。把 URL 换成要测的地址。",
+          "tags": ["http", "终端"],
+          "author": "ClipSync",
+          "content": "curl -sS -o /dev/null -w 'code=%{http_code} time=%{time_total}s size=%{size_download}\\n' 'https://example.com'\n"
+        },
+        {
+          "id": "json-pretty-clipboard",
+          "name": "把剪贴板里的 JSON 排版",
+          "summary": "macOS 上把刚复制的 JSON 展开。确认结构，而不是在一行里找逗号。",
+          "tags": ["json", "macOS"],
+          "author": "ClipSync",
+          "content": "pbpaste | python3 -m json.tool\n"
+        },
+        {
+          "id": "flush-dns-macos",
+          "name": "清掉 macOS 的 DNS 缓存",
+          "summary": "域名刚改、本机还是旧地址时再用。需要输入管理员密码。",
+          "tags": ["dns", "macOS"],
+          "author": "ClipSync",
+          "content": "sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder\n"
+        }
+      ]
+    },
+    {
+      "id": "collab",
+      "name": "协作",
+      "blurb": "周报、延期、缺陷和没写清的需求。贴出去就能填。",
+      "snippets": [
+        {
+          "id": "weekly-update",
+          "name": "周报",
+          "summary": "三块就够：做完了什么、接下来做什么、卡在哪里。",
+          "tags": ["周报", "写作"],
+          "author": "ClipSync",
+          "content": "本周完成：\n- \n\n下周：\n- \n\n风险 / 需要协助：\n- \n"
+        },
+        {
+          "id": "meeting-notes",
+          "name": "会议纪要",
+          "summary": "先写结论和待办。讨论过程不必整段搬上来。",
+          "tags": ["会议", "写作"],
+          "author": "ClipSync",
+          "content": "## 结论\n\n\n## 决定\n\n\n## 待办\n- [ ] 谁 / 做什么 / 何时\n\n## 未决\n\n"
+        },
+        {
+          "id": "delay-note",
+          "name": "延期说明",
+          "summary": "把新时间和需要对方拍板的事写在同一条消息里。",
+          "tags": ["沟通"],
+          "author": "ClipSync",
+          "content": "原计划：\n现在的情况：\n影响：\n新的时间：\n需要你决定的：\n"
+        },
+        {
+          "id": "bug-report",
+          "name": "缺陷描述",
+          "summary": "现象、期望、复现、环境分开写。对方不用再追问一轮。",
+          "tags": ["缺陷", "写作"],
+          "author": "ClipSync",
+          "content": "现象：\n期望：\n复现步骤：\n1. \n环境：\n我已经试过：\n"
+        },
+        {
+          "id": "requirement-questions",
+          "name": "需求没写清时要问的四件事",
+          "summary": "开工前发这一条，比做完再返工便宜。",
+          "tags": ["需求", "写作"],
+          "author": "ClipSync",
+          "content": "1. 谁在用，成功时他看到什么？\n2. 不做会怎样？\n3. 空、超长、重复、没权限，分别怎么处理？\n4. 怎么算做完？\n"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "name": "评审",
+      "blurb": "提 PR 之前，以及给别人提意见的时候。",
+      "snippets": [
+        {
+          "id": "pr-self-check",
+          "name": "提 PR 前自查",
+          "summary": "说明问题、走过主路径、没有把密钥交进去。",
+          "tags": ["pr", "检查"],
+          "author": "ClipSync",
+          "content": "- [ ] 说明这次改动解决的问题\n- [ ] 自己走过主路径和失败路径\n- [ ] 没有把密钥、token、本机绝对路径提交进去\n- [ ] 提交说明写的是原因，不是文件列表\n"
+        },
+        {
+          "id": "review-request-change",
+          "name": "评审意见：建议改",
+          "summary": "问题、建议、原因各一行。对方知道改哪里，也知道为什么。",
+          "tags": ["评审"],
+          "author": "ClipSync",
+          "content": "这里建议改一下。\n\n问题：\n建议：\n原因：\n"
+        },
+        {
+          "id": "review-ask-first",
+          "name": "评审意见：先确认理解",
+          "summary": "拿不准作者意图时先问，不把猜测写成必须改。",
+          "tags": ["评审"],
+          "author": "ClipSync",
+          "content": "我可能理解偏了，先确认一下：\n\n你这里是想 ____ ，还是 ____ ？\n如果是前者，这种边界会不会漏掉：\n"
+        }
+      ]
+    },
+    {
+      "id": "sql",
+      "name": "SQL",
+      "blurb": "查最近的数据、找重复行。方言按你的库改日期函数。",
+      "snippets": [
+        {
+          "id": "sql-last-7-days",
+          "name": "最近 7 天的记录",
+          "summary": "PostgreSQL 写法。表名、时间列换掉即可。",
+          "tags": ["sql", "查询"],
+          "author": "ClipSync",
+          "content": "SELECT *\nFROM events\nWHERE created_at >= CURRENT_DATE - INTERVAL '7 days'\nORDER BY created_at DESC\nLIMIT 50;\n"
+        },
+        {
+          "id": "sql-duplicate-values",
+          "name": "找出重复的值",
+          "summary": "先看哪一列重复、重复了多少，再决定怎么清。",
+          "tags": ["sql", "去重"],
+          "author": "ClipSync",
+          "content": "SELECT email, COUNT(*) AS n\nFROM users\nGROUP BY email\nHAVING COUNT(*) > 1\nORDER BY n DESC;\n"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClipSync — 让剪贴板跟着你跨设备</title>
+    <meta
+      name="description"
+      content="ClipSync 是菜单栏里的开源剪贴板管理器。文字和图片按时间留下，选中即粘贴回原应用；同步走你自己的 GitHub 私有 Gist 或私有仓库，也可以只留在本机。"
+    />
+    <meta property="og:title" content="ClipSync — 让剪贴板跟着你跨设备" />
+    <meta
+      property="og:description"
+      content="菜单栏常驻的开源剪贴板。历史、片段、本机截图识别，同步进你自己的 GitHub，数据归你。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://junhey.github.io/clipsync-app/" />
+    <meta property="og:locale" content="zh_CN" />
+    <!-- og:image omitted: no share image yet -->
+    <link rel="canonical" href="https://junhey.github.io/clipsync-app/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="theme-color" content="#f3f6f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1514" media="(prefers-color-scheme: dark)" />
+    <script>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#preview">跳到内容</a>
+    <header class="nav" id="top">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="ClipSync 首页">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0969da" />
+                <stop offset="100%" stop-color="#0e7c86" />
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="14" fill="url(#brand-grad)" />
+            <rect x="18" y="14" width="28" height="36" rx="3" fill="#fff" opacity="0.95" />
+            <rect x="22" y="22" width="20" height="2" rx="1" fill="#0969da" />
+            <rect x="22" y="28" width="20" height="2" rx="1" fill="#0969da" />
+            <rect x="22" y="34" width="14" height="2" rx="1" fill="#0969da" />
+            <rect x="26" y="10" width="12" height="6" rx="2" fill="#0e7c86" />
+          </svg>
+          ClipSync
+        </a>
+        <nav class="nav-links" aria-label="页内">
+          <a href="#preview">界面</a>
+          <a href="#features">特性</a>
+          <a href="#hotkeys">快捷键</a>
+          <a href="#install">安装</a>
+          <a href="#privacy">隐私</a>
+          <a href="#faq">问答</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="nav-section" href="market.html">市场</a>
+          <a class="nav-github" href="https://github.com/junhey/clipsync-app" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.77c.68.003 1.36.092 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+            </svg>
+            GitHub
+          </a>
+          <a class="btn btn-primary btn-sm" href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">下载</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <p class="hero-en">Your clipboard follows you. The data stays yours.</p>
+          <h1>让剪贴板跟着你<span>跨设备</span></h1>
+          <p class="lede">
+            菜单栏里留着你复制过的文字和图片。搜到一条，回车就粘回刚才那个应用。
+            换电脑时，同步进你自己的私有 Gist 或私有仓库；不想上传，就只留在这台机器上。
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">
+              下载 macOS 版
+              <span class="btn-sub">macOS 12 及以上</span>
+            </a>
+            <a class="btn btn-ghost" href="#install">
+              Windows / Linux
+              <span class="btn-sub">安装说明</span>
+            </a>
+          </div>
+          <p class="hero-note">
+            当前已发布的安装包是 macOS，大约 4.9 MB。给公开仓库打上 v 开头的标签后，发布流程会同时打出 Windows 安装包，先放进草稿；草稿发布前，这里仍是 macOS。Linux 从源码构建。
+            截图文字识别只在 macOS。
+          </p>
+          <ul class="badges">
+            <li>免费开源</li>
+            <li>macOS 12+</li>
+            <li>Windows 10–11</li>
+            <li>MIT</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="stage" id="preview">
+        <div class="wrap">
+          <div class="stage-panel reveal">
+            <div class="win" role="img" aria-label="ClipSync 历史列表示意：搜索框、置顶条目、带缩略图的图片和快捷键提示">
+              <div class="win-bar">
+                <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="win-title">ClipSync</span>
+              </div>
+              <div class="tabs" aria-hidden="true">
+                <span class="tab on">历史</span>
+                <span class="tab">片段 <b>3</b></span>
+              </div>
+              <div class="search">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke-width="1.4"/><path d="M10.5 10.5 L14 14" stroke-width="1.4" stroke-linecap="round"/></svg>
+                搜索历史、图里的文字…
+              </div>
+              <div class="row on">
+                <span class="pin" title="已置顶">★</span>
+                <div class="body">
+                  <strong>https://github.com/junhey/clipsync-app</strong>
+                  <em>2 分钟前 · 文本 · 命中 ×2</em>
+                </div>
+                <kbd>⌘1</kbd>
+              </div>
+              <div class="row">
+                <span class="thumb" aria-hidden="true">
+                  <svg viewBox="0 0 40 40">
+                    <rect width="40" height="40" fill="#1d4e57"/>
+                    <path d="M0 30 L12 16 L20 24 L27 15 L40 28 V40 H0 Z" fill="#5dcdc8"/>
+                    <circle cx="29" cy="11" r="4" fill="#f0d78c"/>
+                  </svg>
+                </span>
+                <div class="body">
+                  <strong>部署失败：证书已过期</strong>
+                  <em>1 小时前 · 图片 · 识别首行</em>
+                </div>
+                <kbd>⌘2</kbd>
+                <div class="peek">
+                  <span class="shot" aria-hidden="true">
+                    <svg viewBox="0 0 72 48">
+                      <rect width="72" height="48" fill="#1d4e57"/>
+                      <path d="M0 36 L22 18 L36 30 L48 16 L72 34 V48 H0 Z" fill="#5dcdc8"/>
+                      <circle cx="54" cy="12" r="5" fill="#f0d78c"/>
+                    </svg>
+                  </span>
+                  <span>悬浮预览<br />1822×1136 · 3.2 MB</span>
+                </div>
+              </div>
+              <div class="row">
+                <span class="pin" style="visibility:hidden">★</span>
+                <div class="body">
+                  <strong>npm run tauri:build</strong>
+                  <em>昨天 · 文本 · 命中 ×4</em>
+                </div>
+                <kbd>⌘3</kbd>
+              </div>
+              <div class="hintbar">
+                <span><kbd>↑</kbd> <kbd>↓</kbd> 移动</span>
+                <span><kbd>↩</kbd> 粘贴</span>
+                <span><kbd>⌘1</kbd>–<kbd>9</kbd></span>
+                <span><kbd>Tab</kbd> 片段</span>
+                <span><kbd>Esc</kbd> 关闭</span>
+              </div>
+            </div>
+            <p class="caption">菜单栏弹窗的暗色界面。图片行会留下识别出的第一行，悬浮时能看到尺寸和体积。</p>
+            <ul class="facts">
+              <li><strong>菜单栏常驻</strong>默认没有 Dock 图标，也可以改成仅 Dock，或两者都留。</li>
+              <li><strong>闲置近零 CPU</strong>macOS 先读 changeCount。轮询 0.6 秒 → 1.5 秒 → 3 秒。</li>
+              <li><strong>约 4.9 MB</strong>Tauri 2 + Rust + React + TypeScript，跟着系统走暗色模式。</li>
+              <li><strong>开机自启</strong>macOS 用 SMAppService，必要时回退到 LaunchAgent。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker">Features</p>
+            <h2>复制之后，它具体做了什么</h2>
+            <p class="lede">下面每一条都是现在就能用的行为，不是路线图。</p>
+          </div>
+
+          <article class="split reveal" id="history">
+            <div class="split-copy">
+              <p class="kicker">01 · 历史</p>
+              <h3>按时间排好，重复的会合并</h3>
+              <p>
+                文字和图片自动进历史，新的在上面。同一段内容再复制一次，不会多出一条：合并回原来那条，命中次数加一，并把它挪到最前。
+              </p>
+              <p>
+                搜索是即时的，打两个字列表就收窄。图片在行首是缩略图，鼠标停上去能看到大图，以及像素尺寸和体积。macOS 上，图里认出的字也参与这次过滤。
+              </p>
+            </div>
+            <div class="split-art">
+              <div class="art" aria-hidden="true">
+                <div class="mini-search"><span class="mark">证书</span></div>
+                <div class="mini-row on"><span>部署失败：证书已过期</span><span>图片</span></div>
+                <div class="mini-row"><span class="dim">npm run tauri:build</span><span class="dim">已隐藏</span></div>
+                <div class="mini-row on"><span>续期命令写在证书文档里</span><span>文本</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="split split-flip reveal" id="paste">
+            <div class="split-copy">
+              <p class="kicker">02 · 粘贴</p>
+              <h3>选中一条，直接回到刚才的应用</h3>
+              <p>
+                光标还在原来的输入框时，按 <kbd>⌘⇧V</kbd> 打开列表（Windows 是 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd>）。回车、点击，或 <kbd>⌘1</kbd>–<kbd>9</kbd>，会把那一条写回系统剪贴板，再模拟一次粘贴键送回去。
+              </p>
+              <p>
+                设置里有一项「选中后自动粘贴」，关掉之后就只复制、不替你按键。macOS 需要辅助功能权限；没授权时会提示「自动粘贴失败：需要辅助功能权限」，旁边可以打开系统设置。另有一组直达键 <kbd>⌘⇧⌥1</kbd>–<kbd>9</kbd>：不弹出窗口，直接粘贴最近第 N 条。
+              </p>
+            </div>
+            <div class="split-art">
+              <div class="art" aria-hidden="true">
+                <div class="flow">
+                  <div class="chip-card"><kbd>⌘1</kbd><br />写入剪贴板</div>
+                  <i>→</i>
+                  <div class="dest">原应用输入框<br />github.com/junhey/clipsync<span class="caret"></span></div>
+                </div>
+                <p class="merge">未授予辅助功能时，改为仅复制，由你自己按 ⌘V。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="split reveal" id="snippets">
+            <div class="split-copy">
+              <p class="kicker">03 · 片段</p>
+              <h3>常用回复放在另一棵树里</h3>
+              <p>
+                地址、工单回复、代码模板和历史分开存。<kbd>Tab</kbd> 在「历史 / 片段」之间切换。<kbd>⌘E</kbd> 打开独立编辑器（Windows 为 <kbd>Ctrl</kbd>+<kbd>E</kbd>），用文件夹管理；这个快捷键可以改，留空就关掉。
+              </p>
+              <p>
+                某一条可以停用，停用后不会出现在粘贴列表。整棵树能导出 JSON，也能再导入。清空历史不会动片段。
+              </p>
+            </div>
+            <div class="split-art">
+              <div class="art tree" aria-hidden="true">
+                <div class="tree-row folder">▾ 工作</div>
+                <div class="tree-row child">工单第一句回复</div>
+                <div class="tree-row child">办公地址</div>
+                <div class="tree-row folder">▾ 代码</div>
+                <div class="tree-row child">PR 模板 <span class="badge-off">已停用</span></div>
+                <div class="tree-row child">发布检查清单</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="split split-flip reveal" id="ocr">
+            <div class="split-copy">
+              <p class="kicker">04 · 截图识别</p>
+              <h3>图里的字，也能被搜到</h3>
+              <p>
+                macOS 上，截图进历史之后，本机 Vision 框架识别图中的中文和英文。识别不联网，也不经过别的服务器。结果的第一行显示在列表里，所以搜「证书」可以命中一张报错截图。
+              </p>
+              <p>这项只在 macOS。Windows 和 Linux 仍然会保存图片、显示缩略图，只是还不能按图中文字搜索。</p>
+            </div>
+            <div class="split-art">
+              <div class="art" aria-hidden="true">
+                <div class="ocr-shot">
+                  <svg viewBox="0 0 320 96" preserveAspectRatio="none">
+                    <rect width="320" height="96" fill="#14343a"/>
+                    <rect x="16" y="18" width="180" height="8" rx="2" fill="#8ee4df" opacity="0.9"/>
+                    <rect x="16" y="36" width="120" height="6" rx="2" fill="#d7e6ea" opacity="0.7"/>
+                    <rect x="16" y="52" width="150" height="6" rx="2" fill="#d7e6ea" opacity="0.45"/>
+                  </svg>
+                </div>
+                <p class="ocr-line">识别首行：<span class="mark">部署失败：证书已过期</span></p>
+                <p class="merge">本机 Vision · 中英文 · 不上传</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="split reveal" id="sync">
+            <div class="split-copy">
+              <p class="kicker">05 · 同步</p>
+              <h3>数据在你的 GitHub 上，不在别人的服务器</h3>
+              <p>
+                三种后端：私有 Gist、私有仓库的 <code>data</code> 分支、仅本地。Personal Access Token 只进操作系统钥匙串——macOS Keychain 或 Windows 凭据管理器，service 是 <code>ClipSync</code>，account 是 <code>github_pat</code>。同步时才读取，不写进任何配置文件。
+              </p>
+              <p>
+                两台机器合并时，<code>updatedAt</code> 更新的那条胜出；置顶取并集；命中次数相加。图片按内容寻址存成 blob，同一张图不会存两份。<code>data</code> 分支是 orphan：每次同步 force-push 一个没有父提交的根 commit，分支上始终只有这一次提交，仓库体积约等于当前数据量。
+              </p>
+            </div>
+            <div class="split-art">
+              <div class="art" aria-hidden="true">
+                <div class="choices">
+                  <div class="choice"><span>私有 Gist</span><small>history.json</small></div>
+                  <div class="choice on"><span>私有仓库</span><small>data · 1 commit</small></div>
+                  <div class="choice"><span>仅本地</span><small>不出这台电脑</small></div>
+                </div>
+                <p class="merge">updatedAt 新者胜 · 置顶并集 · 命中累加</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="split split-flip reveal" id="blocklist">
+            <div class="split-copy">
+              <p class="kicker">06 · 来源忽略</p>
+              <h3>密码管理器里复制的，默认不记</h3>
+              <p>
+                设置里的「忽略来源」每行一条，末尾 <code>*</code> 表示前缀匹配。默认包含 1Password、LastPass、KeePassXC、Bitwarden 的 bundle id 和 Windows 进程名，命中的复制不进历史，也不会被同步。
+              </p>
+              <p>
+                macOS 拿 bundle id 对来源应用，默认就能跳过 1Password、LastPass、KeePassXC 和 Bitwarden。Windows 比的是前台进程名，默认包含 <code>1Password*</code>、<code>KeePass*</code>、<code>Bitwarden*</code>、<code>LastPass*</code>。Linux 目前拿不到来源。
+              </p>
+            </div>
+            <div class="split-art">
+              <div class="art" aria-hidden="true">
+                <div class="block-row"><code>com.agilebits.onepassword*</code><small>已忽略</small></div>
+                <div class="block-row"><code>com.lastpass.LastPass</code><small>已忽略</small></div>
+                <div class="block-row"><code>org.keepassxc.keepassxc</code><small>已忽略</small></div>
+                <div class="block-row"><code>com.bitwarden.desktop</code><small>已忽略</small></div>
+                <p class="merge">末尾 * 为前缀匹配 · 可自行增删</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section band" id="hotkeys">
+        <div class="wrap">
+          <p class="kicker">Shortcuts</p>
+          <h2>默认快捷键</h2>
+          <p class="lede">
+            唤出弹窗的全局快捷键、片段编辑器快捷键都可以在设置里改。macOS 默认 <kbd>⌘⇧V</kbd>。Windows 默认 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd>，避开输入法用来切换布局的 Ctrl+Shift；这个组合被占用时，自动退回 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>。直达粘贴是固定的 <kbd>⌘⇧⌥1</kbd>–<kbd>9</kbd>。
+          </p>
+          <table class="hotkeys">
+            <thead>
+              <tr>
+                <th>操作</th>
+                <th>macOS</th>
+                <th>Windows</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="操作">唤出 / 隐藏弹窗</td>
+                <td data-label="macOS"><span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>V</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>V</kbd><span class="sep">占用则</span><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>V</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">选中第 1–9 条并粘贴</td>
+                <td data-label="macOS"><span class="keys"><kbd>⌘</kbd><kbd>1</kbd><span class="sep">–</span><kbd>9</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>Ctrl</kbd><kbd>1</kbd><span class="sep">–</span><kbd>9</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">不弹窗，直达粘贴第 N 条</td>
+                <td data-label="macOS"><span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>⌥</kbd><kbd>1</kbd><span class="sep">–</span><kbd>9</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Alt</kbd><kbd>1</kbd><span class="sep">–</span><kbd>9</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">置顶 / 取消置顶</td>
+                <td data-label="macOS"><span class="keys"><kbd>⌘</kbd><kbd>P</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>Ctrl</kbd><kbd>P</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">历史 / 片段</td>
+                <td data-label="macOS"><kbd>Tab</kbd></td>
+                <td data-label="Windows"><kbd>Tab</kbd></td>
+              </tr>
+              <tr>
+                <td data-label="操作">打开片段编辑器</td>
+                <td data-label="macOS"><span class="keys"><kbd>⌘</kbd><kbd>E</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>Ctrl</kbd><kbd>E</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">上下移动</td>
+                <td data-label="macOS"><span class="keys"><kbd>↑</kbd><kbd>↓</kbd></span></td>
+                <td data-label="Windows"><span class="keys"><kbd>↑</kbd><kbd>↓</kbd></span></td>
+              </tr>
+              <tr>
+                <td data-label="操作">选中当前条</td>
+                <td data-label="macOS"><kbd>Enter</kbd></td>
+                <td data-label="Windows"><kbd>Enter</kbd></td>
+              </tr>
+              <tr>
+                <td data-label="操作">关闭</td>
+                <td data-label="macOS"><kbd>Esc</kbd> 先清搜索，再隐藏</td>
+                <td data-label="Windows">同左</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="install">
+        <div class="wrap">
+          <p class="kicker">Install</p>
+          <h2>安装，然后接上同步</h2>
+          <p class="lede">macOS 可以一行命令装好。Windows 安装包由发布标签生成，发布之前仍可从源码构建。Linux 从源码构建。</p>
+
+          <div class="install-grid">
+            <article class="card card-wide accented">
+              <span class="tag">macOS · 推荐</span>
+              <h3>一键安装</h3>
+              <p>脚本会按芯片下载最新的 <code>.app.tar.gz</code>，放进 <code>/Applications</code>，去掉隔离属性，做 ad-hoc 签名，然后启动。</p>
+              <div class="curl">
+                <pre><code>curl -fsSL https://junhey.github.io/clipsync-app/install.sh | bash</code></pre>
+                <button type="button" class="copy-btn" data-copy="curl -fsSL https://junhey.github.io/clipsync-app/install.sh | bash">复制</button>
+              </div>
+              <details>
+                <summary>脚本实际做了这些</summary>
+                <ol>
+                  <li>确认是 macOS，识别 arm64 或 x86_64</li>
+                  <li>向 GitHub Releases API 要最新版本和安装包地址</li>
+                  <li>如果 ClipSync 已在运行，先退出</li>
+                  <li>下载到临时目录并解压</li>
+                  <li>安装到 <code>/Applications/ClipSync.app</code></li>
+                  <li><code>xattr -dr com.apple.quarantine</code> 去掉隔离属性</li>
+                  <li><code>codesign --sign -</code> 做 ad-hoc 签名</li>
+                  <li>启动应用</li>
+                </ol>
+                <p>脚本源码：<a href="https://github.com/junhey/clipsync-app/blob/main/docs/pages/install.sh" target="_blank" rel="noopener">install.sh</a></p>
+              </details>
+            </article>
+
+            <article class="card">
+              <h3>手动安装 macOS</h3>
+              <p>从 <a href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">Releases</a> 下载 <code>ClipSync_*_aarch64.app.tar.gz</code>（Intel 是 <code>x64.app.tar.gz</code>），解压后放进「应用程序」。</p>
+              <p>第一次打开前如果被 Gatekeeper 拦住，在终端执行：</p>
+              <pre><code>xattr -dr com.apple.quarantine /Applications/ClipSync.app</code></pre>
+            </article>
+
+            <article class="card">
+              <h3>Windows</h3>
+              <p>给公开仓库推送 <code>v*</code> 标签后，发布流程会打出 NSIS 安装包，先放进 Release 草稿。草稿发布之前，<a href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">最新 Release</a> 里还是 macOS 安装包，这时用旁边的源码构建。安装包没有代码签名，SmartScreen 可能提示未知发布者。</p>
+              <p>Windows 不需要辅助功能权限，也不需要剪贴板隐私授权。唤出快捷键是 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd>。注册失败时会提示并退回 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>。截图识别目前没有。密码管理器默认按进程名跳过，例如 <code>1Password*</code>、<code>KeePass*</code>。</p>
+            </article>
+
+            <article class="card">
+              <h3>自己构建</h3>
+              <p>需要 Rust 1.77+ 和 Node 20+。macOS、Windows、Linux 是同一套代码。Linux 目前没有一键安装脚本。</p>
+              <pre><code>git clone https://github.com/junhey/clipsync-app.git
+cd clipsync-app
+npm install
+npm run tauri:build
+# macOS 产物:
+# src-tauri/target/release/bundle/macos/ClipSync.app</code></pre>
+            </article>
+
+            <article class="card">
+              <h3>接上 GitHub 同步</h3>
+              <p>菜单栏图标 → 设置 → 同步。默认后端是私有仓库。</p>
+              <ol>
+                <li>生成 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained PAT</a>。仓库名留空时，token 需要能新建仓库；已经填了 <code>owner/repo</code>，就只给那个仓库打开 Contents 读写。经典 token 则勾选 <code>repo</code>。</li>
+                <li>把 PAT 贴进设置，点「检查连接」。仓库名留空时使用 <code>你的用户名/clipsync</code>，还没有就尝试新建私有仓库。填了别的名字就不会另建。Gist 需要一条已经存在的 ID。</li>
+                <li>PAT 写入 macOS Keychain 或 Windows 凭据管理器，不会落成文件。检查失败时，同一处会写明是 PAT、权限、仓库还是网络。</li>
+                <li>通过之后，当前历史写到仓库的 <code>data</code> 分支，或那条私有 Gist 的 <code>history.json</code>。默认同步间隔 60 秒。</li>
+              </ol>
+            </article>
+          </div>
+
+          <div class="platforms">
+            <article class="card">
+              <h3>macOS 第一次粘贴</h3>
+              <ol>
+                <li>装好后照常复制一段文字</li>
+                <li>在要粘贴的地方按 <kbd>⌘⇧V</kbd></li>
+                <li>若提示「自动粘贴失败：需要辅助功能权限」，点旁边的入口，到「隐私与安全性 → 辅助功能」里允许 ClipSync。设置里未授权时也有「系统设置」按钮</li>
+                <li>暂时不想授权，就关掉「选中后自动粘贴」，选中后只复制，再自己按 <kbd>⌘V</kbd></li>
+              </ol>
+            </article>
+            <article class="card">
+              <h3>Windows 第一次使用</h3>
+              <ol>
+                <li>安装后照常复制</li>
+                <li>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd> 打开历史</li>
+                <li>回车或 <kbd>Ctrl</kbd>+<kbd>1</kbd>–<kbd>9</kbd> 会模拟 Ctrl+V 粘回去</li>
+                <li>不需要辅助功能，也不需要剪贴板隐私授权</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section band" id="privacy">
+        <div class="wrap">
+          <p class="kicker">Privacy</p>
+          <h2>剪贴板只该在你手里</h2>
+          <p class="lede">
+            ClipSync 没有账号，也没有自己的服务器收历史。内容只可能在两个地方：这台电脑的应用数据目录，以及你自己的 GitHub。选「仅本地」时，第二个地方也不存在。
+          </p>
+          <div class="promise">
+            <article>
+              <h3>Token 不出钥匙串</h3>
+              <p>PAT 存在 macOS Keychain 或 Windows 凭据管理器，service 为 <code>ClipSync</code>，account 为 <code>github_pat</code>。应用只在同步时读取，不写进配置文件，也不进历史记录。</p>
+            </article>
+            <article>
+              <h3>来源可以整段跳过</h3>
+              <p>macOS 上，默认的 bundle id 会跳过 1Password、LastPass、KeePassXC 和 Bitwarden。Windows 用同一张表里的进程名，默认包含 <code>1Password*</code>、<code>KeePass*</code>、<code>Bitwarden*</code>、<code>LastPass*</code>。末尾星号是前缀匹配。Linux 还没有来源信息。</p>
+            </article>
+            <article>
+              <h3>识别发生在本机</h3>
+              <p>截图文字用 macOS 自带的 Vision，在这台电脑上完成。没有识别请求要发出去。关掉这项能力的平台——Windows 和 Linux——本来就不会做这一步。</p>
+            </article>
+            <article>
+              <h3>仅本地可以断网</h3>
+              <p>同步后端选「仅本地」、不填写 PAT 之后，历史、片段和图片 blob 都留在本机，不会创建 Gist，也不会往 <code>data</code> 分支推送。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="wrap">
+          <p class="kicker">FAQ</p>
+          <h2>常见问题</h2>
+          <div class="faq-list">
+            <details>
+              <summary>Token 存在哪里，安全吗？</summary>
+              <p>存在操作系统钥匙串里：macOS Keychain，或 Windows 凭据管理器。条目的 service 是 <code>ClipSync</code>，account 是 <code>github_pat</code>。ClipSync 只在同步时读取，不会把 token 写进应用数据目录或 Git 仓库。建议用 fine-grained PAT，权限只开给那个私有仓库。</p>
+            </details>
+            <details>
+              <summary>GitHub 仓库会不会越同步越大？</summary>
+              <p>不会跟着提交次数涨。<code>data</code> 分支是 orphan，每次同步 force-push 一个没有父节点的根 commit，分支上永远只有这一次提交。仓库体积约等于当前历史加上图片 blob。图片按内容寻址，相同的图共用一个 blob，不会重复占空间。</p>
+            </details>
+            <details>
+              <summary>Windows 和 Linux 能用吗？</summary>
+              <p>能。macOS、Windows、Linux 是同一套 Tauri 2 代码。Windows 10 / 11 不需要辅助功能，也不需要剪贴板隐私授权。第一次启动的快捷键是 Ctrl+Alt+V，注册失败时退回 Ctrl+Shift+V，并提示「热键被占用」。截图文字识别只在 macOS。密码管理器在 Windows 上默认按进程名跳过。Windows 安装包随版本标签生成，发布前可用源码构建。Linux 需要自己构建，还没有一键安装脚本。</p>
+            </details>
+            <details>
+              <summary>怎么让某个应用的复制不进历史？</summary>
+              <p>打开设置，找到「忽略来源」，每行写一条。末尾的 <code>*</code> 表示前缀匹配。默认同时有 macOS bundle id 和 Windows 进程名，例如 <code>com.agilebits.onepassword*</code> 和 <code>1Password*</code>。改完保存即可；已经进历史的旧条目不会因此被删掉。</p>
+            </details>
+            <details>
+              <summary>如何彻底卸载？</summary>
+              <ol>
+                <li>退出 ClipSync。</li>
+                <li>macOS：把 <code>/Applications/ClipSync.app</code> 拖进废纸篓。Windows：用系统的应用卸载。</li>
+                <li>删掉本机数据。macOS 路径是 <code>~/Library/Application Support/dev.junhey.clipsync</code>。</li>
+                <li>在钥匙串或凭据管理器里删掉 service 为 <code>ClipSync</code>、account 为 <code>github_pat</code> 的条目。</li>
+                <li>如果开过同步，自行删除 GitHub 上的私有仓库，或那条 Gist。</li>
+              </ol>
+            </details>
+            <details>
+              <summary>可以完全离线、只留在这台电脑吗？</summary>
+              <p>可以。设置 → 同步 → 选「仅本地」。不要填写 PAT。历史和片段都写在本机应用数据目录，不会创建 Gist，也不会往 <code>data</code> 分支推送。换电脑时这份数据不会自己跟过去。</p>
+            </details>
+            <details>
+              <summary>选中之后没有自动粘贴？</summary>
+              <p>macOS 上，模拟 <kbd>⌘V</kbd> 需要辅助功能权限。失败时会看到「自动粘贴失败：需要辅助功能权限」，并可以打开系统设置。设置里的「选中后自动粘贴」关掉之后，选中只写入剪贴板，粘贴键由你自己按。未授权时，这项旁边也会出现「系统设置」。Windows 没有这项权限门槛。</p>
+            </details>
+            <details>
+              <summary>重复复制和图片会把历史撑爆吗？</summary>
+              <p>同一内容再次复制会合并成一条，命中次数累加，不会无限新增。图片以内容哈希为地址存储，相同像素只留一份 blob。列表里能看到缩略图；悬浮时显示宽高和体积。历史条数在设置里有上限，超出后优先留下置顶项。</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" id="get">
+        <div class="wrap reveal">
+          <h2>下次复制完，按一下就能找回来</h2>
+          <p class="lede" style="margin-left:auto;margin-right:auto">macOS 用 ⌘⇧V，Windows 用 Ctrl+Alt+V。同步要不要开，装好再决定。</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://github.com/junhey/clipsync-app/releases/latest" target="_blank" rel="noopener">下载最新版</a>
+            <a class="btn btn-ghost" href="https://github.com/junhey/clipsync-app" target="_blank" rel="noopener">查看源码</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>ClipSync · MIT License · Tauri 2 + Rust + React + TypeScript</p>
+        <nav aria-label="站点">
+          <a href="https://github.com/junhey/clipsync-app" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/junhey/clipsync-app/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="market.html">市场</a>
+          <a href="https://github.com/junhey/clipsync-app/issues" target="_blank" rel="noopener">反馈问题</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var nodes = document.querySelectorAll(".reveal");
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("in");
+              io.unobserve(entry.target);
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+          nodes.forEach(function (el) { io.observe(el); });
+        } else {
+          nodes.forEach(function (el) { el.classList.add("in"); });
+        }
+        document.querySelectorAll("[data-copy]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var text = btn.getAttribute("data-copy") || "";
+            var old = btn.textContent;
+            var done = function (label) {
+              btn.textContent = label;
+              setTimeout(function () { btn.textContent = old; }, 1400);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () { done("已复制"); }).catch(function () { done("请手动复制"); });
+            } else {
+              done("请手动复制");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
