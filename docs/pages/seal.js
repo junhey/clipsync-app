@@ -1,0 +1,100 @@
+/**
+ * Client-side seal for private shares.
+ * Keep this in lockstep with src/seal.ts:
+ * PBKDF2-SHA-256, 120000 iterations, AES-GCM-256, 16-byte salt, 12-byte iv.
+ * The key never leaves the machine that created it.
+ */
+
+export const SEAL_ITERATIONS = 120000;
+
+export function newShareKey() {
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  return `cs1_${bytesToBase64Url(bytes)}`;
+}
+
+export async function sealSnippet(payload, key) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const aes = await deriveKey(key, salt, ["encrypt"]);
+  const plain = new TextEncoder().encode(JSON.stringify(normalizePayload(payload)));
+  const cipher = new Uint8Array(
+    await crypto.subtle.encrypt({ name: "AES-GCM", iv }, aes, plain)
+  );
+  return {
+    v: 1,
+    salt: bytesToBase64(salt),
+    iv: bytesToBase64(iv),
+    data: bytesToBase64(cipher),
+  };
+}
+
+export async function openSnippet(envelope, key) {
+  try {
+    if (!envelope || envelope.v !== 1 || !key) return null;
+    const salt = base64ToBytes(envelope.salt);
+    const iv = base64ToBytes(envelope.iv);
+    const data = base64ToBytes(envelope.data);
+    if (salt.length !== 16 || iv.length !== 12 || data.length === 0) return null;
+    const aes = await deriveKey(key, salt, ["decrypt"]);
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, aes, data);
+    const parsed = JSON.parse(new TextDecoder().decode(plain));
+    if (typeof parsed.name !== "string" || typeof parsed.content !== "string") {
+      return null;
+    }
+    return {
+      name: parsed.name,
+      summary: typeof parsed.summary === "string" ? parsed.summary : "",
+      tags: Array.isArray(parsed.tags)
+        ? parsed.tags.filter((tag) => typeof tag === "string")
+        : [],
+      content: parsed.content,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function normalizePayload(payload) {
+  return {
+    name: payload.name,
+    summary: payload.summary || "",
+    tags: payload.tags || [],
+    content: payload.content,
+  };
+}
+
+async function deriveKey(key, salt, usages) {
+  const baseKey = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(key),
+    "PBKDF2",
+    false,
+    ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: SEAL_ITERATIONS, hash: "SHA-256" },
+    baseKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    usages
+  );
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+function bytesToBase64Url(bytes) {
+  return bytesToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function base64ToBytes(value) {
+  const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = normalized + "=".repeat((4 - (normalized.length % 4)) % 4);
+  const binary = atob(padded);
+  const out = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
+  return out;
+}
